@@ -26,12 +26,38 @@ eating the whole spool.
 
 ## 2. Source model
 
-> **TODO:** drop the STL/3MF source link here once you've picked the
-> model (Thingiverse, Printables, Cults3D, or a custom kitbash).
+This repo ships `starship.scad` — a **parametric OpenSCAD** model of a
+stylized explorer-class starship (original geometry, CC0). Classic
+silhouette: saucer + secondary hull + twin nacelles on swept pylons,
+with deflector dish, bridge dome, and impulse engines.
 
-When importing, confirm the model is split into separable parts
-(saucer, engineering hull, nacelles, pylons, deflector) — a single
-fused mesh at this scale won't fit the H2D bed and won't paint cleanly.
+It is **not** a Galaxy-class replica — for an accurate NCC-1701-D mesh,
+grab a fan model from Printables/Thingiverse/Cults3D under that
+creator's license and update this section with the link.
+
+### Generating the STLs
+
+1. Install [OpenSCAD](https://openscad.org/) (or use the Bambu Studio
+   OpenSCAD import).
+2. Open `starship.scad` and set `length` for the assembled size
+   (default `340` mm, fits the H2D plate with margin).
+3. Set `part` to each piece in turn, Render (F6), and export STL:
+   - `saucer`, `hull`, `neck`, `deflector`
+   - `pylon_l`, `pylon_r`, `nacelle_l`, `nacelle_r`
+   - `bussard_l`, `bussard_r`, `bridge`, `impulse`
+4. Drop the STLs onto the plates per §6.
+
+Or render the preview with `part = "assembled"` to sanity-check
+proportions before slicing.
+
+Headless export example (one STL per part):
+
+```bash
+for p in saucer hull neck deflector pylon_l pylon_r \
+         nacelle_l nacelle_r bussard_l bussard_r bridge impulse; do
+  openscad -o "stl/${p}.stl" -D "part=\"${p}\"" starship.scad
+done
+```
 
 ## 3. Hardware
 
